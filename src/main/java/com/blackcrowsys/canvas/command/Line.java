@@ -1,6 +1,7 @@
 package com.blackcrowsys.canvas.command;
 
 
+import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.Coordinate;
 import com.blackcrowsys.canvas.command.Command;
 
@@ -17,8 +18,9 @@ public class Line implements Command {
         this.to = to;
     }
 
-    public void execute() {
-
+    @Override
+    public Canvas execute(Canvas canvas) {
+        return null;
     }
 
     @Override

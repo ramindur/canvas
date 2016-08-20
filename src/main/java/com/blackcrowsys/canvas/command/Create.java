@@ -1,6 +1,7 @@
 package com.blackcrowsys.canvas.command;
 
 
+import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.command.Command;
 import com.blackcrowsys.canvas.exception.InvalidCommandException;
 
@@ -17,8 +18,9 @@ public class Create implements Command {
         this.height = height;
     }
 
-    public void execute() {
-
+    @Override
+    public Canvas execute(Canvas canvas) {
+        return null;
     }
 
     @Override

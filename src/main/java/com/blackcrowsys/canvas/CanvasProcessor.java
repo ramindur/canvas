@@ -8,23 +8,24 @@ public class CanvasProcessor {
 
     private CommandFactory commandFactory;
 
-    public CanvasProcessor(){
+    public CanvasProcessor() {
         commandFactory = new CommandFactory();
     }
 
-    public CanvasProcessor(CommandFactory commandFactory){
+    public CanvasProcessor(CommandFactory commandFactory) {
         this.commandFactory = commandFactory;
     }
 
     /**
-     * Creates a Command object using command factory that represents the arguments, and executes it's
-     * execute method.
-     * @param arguments the command line argument
-     * @return the command object
+     * Generates and executes command on the canvas based on the arguments.
+     *
+     * @param arguments the command and arguments
+     * @param canvas    the canvas
+     * @return the updated canvas
+     * @throws InvalidCommandException if the command, arguments are invalid
      */
-    public Command forCommand(String arguments) throws InvalidCommandException {
+    public Canvas runCommandOnCanvas(String arguments, Canvas canvas) throws InvalidCommandException {
         Command command = commandFactory.getCommandFor(arguments);
-        command.execute();
-        return command;
+        return command.execute(canvas);
     }
 }

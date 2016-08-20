@@ -1,5 +1,6 @@
 package com.blackcrowsys.canvas.command;
 
+import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.Coordinate;
 
 /**
@@ -19,8 +20,8 @@ public class FillRegion implements  Command {
     }
 
     @Override
-    public void execute() {
-
+    public Canvas execute(Canvas canvas) {
+        return null;
     }
 
     @Override

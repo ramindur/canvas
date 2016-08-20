@@ -1,5 +1,6 @@
 package com.blackcrowsys.canvas.command;
 
+import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.Coordinate;
 import com.sun.org.apache.regexp.internal.RE;
 import org.w3c.dom.css.Rect;
@@ -21,8 +22,8 @@ public class Rectangle implements Command {
     }
 
     @Override
-    public void execute() {
-
+    public Canvas execute(Canvas canvas) {
+        return null;
     }
 
     @Override

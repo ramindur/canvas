@@ -19,16 +19,19 @@ public class TestCanvasProcessor {
 
     private Command command = mock(Command.class);
 
+    private Canvas canvas = mock(Canvas.class);
+
     @Before
     public void setUp() throws InvalidCommandException {
         processor = new CanvasProcessor(commandFactory);
         when(commandFactory.getCommandFor(CREATE_CANVAS)).thenReturn(command);
+        when(command.execute(canvas)).thenReturn(canvas);
     }
 
     @Test
     public void testProcessorCreatesCommandAndExecutes() throws InvalidCommandException {
-        Command aCommand = processor.forCommand(CREATE_CANVAS);
-        assertNotNull(aCommand);
-        verify(aCommand, times(1)).execute();
+        Canvas returnedCanvas = processor.runCommandOnCanvas(CREATE_CANVAS, canvas);
+        assertNotNull(returnedCanvas);
+        verify(command, times(1)).execute(canvas);
     }
 }
