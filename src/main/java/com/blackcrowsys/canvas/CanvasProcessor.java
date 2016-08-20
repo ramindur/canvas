@@ -6,6 +6,10 @@ import com.blackcrowsys.canvas.exception.InvalidCommandException;
 
 public class CanvasProcessor {
 
+    private static final String CREATE = "CREATE";
+
+    private static final String QUIT = "QUIT";
+
     private CommandFactory commandFactory;
 
     public CanvasProcessor() {
@@ -26,6 +30,14 @@ public class CanvasProcessor {
      */
     public Canvas runCommandOnCanvas(String arguments, Canvas canvas) throws InvalidCommandException {
         Command command = commandFactory.getCommandFor(arguments);
-        return command.execute(canvas);
+        if (canvas == null) {
+            if (command.getCommandString().equals(CREATE) || command.getCommandString().equals(QUIT)) {
+                return command.execute(canvas);
+            } else {
+                throw new InvalidCommandException("Canvas does not exist");
+            }
+        } else {
+            return command.execute(canvas);
+        }
     }
 }
