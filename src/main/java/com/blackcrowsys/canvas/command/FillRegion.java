@@ -3,25 +3,23 @@ package com.blackcrowsys.canvas.command;
 import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.Coordinate;
 
-/**
- * Created by ramindursingh on 20/08/2016.
- */
-public class FillRegion implements  Command {
+public class FillRegion implements Command {
 
     private static final String ID = "FILL_REGION";
 
     private Coordinate location;
 
-    private char drawCharacter;
+    private char fillCharacter;
 
-    public FillRegion(Coordinate location, char drawCharacter) {
+    public FillRegion(Coordinate location, char fillCharacter) {
         this.location = location;
-        this.drawCharacter = drawCharacter;
+        this.fillCharacter = fillCharacter;
     }
 
     @Override
     public Canvas execute(Canvas canvas) {
-        return null;
+
+        return canvas.fillRegion(location, fillCharacter);
     }
 
     @Override

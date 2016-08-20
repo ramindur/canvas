@@ -77,7 +77,7 @@ public class TestCommandFactory {
 
     @Test
     public void testGeneratingCommandForDrawingRectangle() throws InvalidCommandException, CanvasOperationException {
-        Command drawRectangleCommand = new Rectangle(new Coordinate(), new Coordinate());
+        Command drawRectangleCommand = new DrawRectangle(new Coordinate(), new Coordinate());
         Command drawRectangle = commandFactory.getCommandFor(DRAW_RECTANGLE);
         assertNotNull(drawRectangle);
         assertTrue(drawRectangleCommand.getCommandString().equals(drawRectangle.getCommandString()));

@@ -56,7 +56,7 @@ public class CommandFactory {
                 try {
                     Coordinate topLeftCorner = new Coordinate(args[1], args[2]);
                     Coordinate bottomRightCorner = new Coordinate(args[3], args[4]);
-                    return new Rectangle(topLeftCorner, bottomRightCorner);
+                    return new DrawRectangle(topLeftCorner, bottomRightCorner);
                 } catch (NumberFormatException e) {
                     throw new InvalidCommandException(e.getMessage());
                 }
