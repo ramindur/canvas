@@ -3,9 +3,8 @@ package com.blackcrowsys.canvas.command;
 
 import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.Coordinate;
-import com.blackcrowsys.canvas.command.Command;
 
-public class Line implements Command {
+public class DrawLine implements Command {
 
     private static final String ID = "DRAW_LINE";
 
@@ -13,14 +12,14 @@ public class Line implements Command {
 
     private Coordinate to;
 
-    public Line(Coordinate from, Coordinate to) {
+    public DrawLine(Coordinate from, Coordinate to) {
         this.from = from;
         this.to = to;
     }
 
     @Override
     public Canvas execute(Canvas canvas) {
-        return null;
+        return canvas.drawLine(from, to);
     }
 
     @Override

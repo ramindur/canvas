@@ -3,9 +3,9 @@ package com.blackcrowsys.canvas.command;
 
 import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.CanvasFactory;
-import com.blackcrowsys.canvas.exception.CanvasException;
+import com.blackcrowsys.canvas.exception.CanvasOperationException;
 
-public class Create implements Command {
+public class CreateCanvas implements Command {
 
     private static final String ID = "CREATE";
 
@@ -15,17 +15,17 @@ public class Create implements Command {
 
     private CanvasFactory canvasFactory;
 
-    public Create(int width, int height, CanvasFactory canvasFactory) throws CanvasException {
+    public CreateCanvas(int width, int height, CanvasFactory canvasFactory) throws CanvasOperationException {
         if (width <= 0)
-            throw new CanvasException("Width cannot be less than or equal to 0");
+            throw new CanvasOperationException("Width cannot be less than or equal to 0");
         this.width = width;
 
         if (height <= 0)
-            throw new CanvasException("Height cannot be less than or equal to 0");
+            throw new CanvasOperationException("Height cannot be less than or equal to 0");
         this.height = height;
 
         if (canvasFactory == null) {
-            throw new CanvasException("Canvas factory cannot be null");
+            throw new CanvasOperationException("Canvas factory cannot be null");
         }
         this.canvasFactory = canvasFactory;
     }

@@ -1,5 +1,7 @@
 package com.blackcrowsys.canvas;
 
+import java.util.Objects;
+
 /**
  * Created by ramindursingh on 20/08/2016.
  */
@@ -9,8 +11,13 @@ public class Coordinate {
 
     private int y;
 
+    public Coordinate() {
+    }
 
-    public Coordinate(){}
+    public Coordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public Coordinate(String xPoint, String yPoint) {
         this.x = Integer.parseInt(xPoint);
@@ -37,18 +44,13 @@ public class Coordinate {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Coordinate that = (Coordinate) o;
-
-        if (x != that.x) return false;
-        return y == that.y;
-
+        return x == that.x &&
+                y == that.y;
     }
 
     @Override
     public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
-        return result;
+        return Objects.hash(x, y);
     }
 }

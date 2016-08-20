@@ -2,7 +2,7 @@ package com.blackcrowsys.canvas;
 
 
 import com.blackcrowsys.canvas.command.*;
-import com.blackcrowsys.canvas.exception.CanvasException;
+import com.blackcrowsys.canvas.exception.CanvasOperationException;
 import com.blackcrowsys.canvas.exception.InvalidCommandException;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,53 +30,53 @@ public class TestCommandFactory {
     }
 
     @Test
-    public void testGeneratingCommandForCreatingCanvas() throws InvalidCommandException, CanvasException {
-        Command createCanvasCommand = new Create(20, 4, canvasFactory);
+    public void testGeneratingCommandForCreatingCanvas() throws InvalidCommandException, CanvasOperationException {
+        Command createCanvasCommand = new CreateCanvas(20, 4, canvasFactory);
         Command createCanvas = commandFactory.getCommandFor(CREATE_CANVAS);
         assertNotNull(createCanvas);
         assertTrue(createCanvasCommand.getCommandString().equals(createCanvas.getCommandString()));
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingCreateCommandWithTooManyArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingCreateCommandWithTooManyArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("C 20 4 6");
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingCreateCommandWithTooFewArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingCreateCommandWithTooFewArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("C 20");
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingCreateCommandWithInvalidArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingCreateCommandWithInvalidArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("C 20 a");
     }
 
     @Test
-    public void testGeneratingCommandForDrawingLine() throws InvalidCommandException, CanvasException {
-        Command drawLineCommand = new Line(new Coordinate(), new Coordinate());
+    public void testGeneratingCommandForDrawingLine() throws InvalidCommandException, CanvasOperationException {
+        Command drawLineCommand = new DrawLine(new Coordinate(), new Coordinate());
         Command drawLine = commandFactory.getCommandFor(DRAW_LINE);
         assertNotNull(drawLine);
         assertTrue(drawLineCommand.getCommandString().equals(drawLine.getCommandString()));
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForDrawingLineWithTooManyArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForDrawingLineWithTooManyArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("L 1 2 5 1 2");
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForDrawingLineWithTooFewArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForDrawingLineWithTooFewArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("L 1 2 5");
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForDrawingLineWithInvalidArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForDrawingLineWithInvalidArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("L 1 2 6 a");
     }
 
     @Test
-    public void testGeneratingCommandForDrawingRectangle() throws InvalidCommandException, CanvasException {
+    public void testGeneratingCommandForDrawingRectangle() throws InvalidCommandException, CanvasOperationException {
         Command drawRectangleCommand = new Rectangle(new Coordinate(), new Coordinate());
         Command drawRectangle = commandFactory.getCommandFor(DRAW_RECTANGLE);
         assertNotNull(drawRectangle);
@@ -84,22 +84,22 @@ public class TestCommandFactory {
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForRectangleWithTooManyArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForRectangleWithTooManyArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("R 1 2 6 9 8");
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForRectangleWithTooFewArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForRectangleWithTooFewArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("R 1 2 6");
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForRectangleWithInvalidArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForRectangleWithInvalidArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("R 1 2 6 a");
     }
 
     @Test
-    public void testGeneratingCommandForFillRegion() throws InvalidCommandException, CanvasException {
+    public void testGeneratingCommandForFillRegion() throws InvalidCommandException, CanvasOperationException {
         Command fillRegionCommand = new FillRegion(new Coordinate(), 'x');
         Command fillRegion = commandFactory.getCommandFor(FILL_REGION);
         assertNotNull(fillRegion);
@@ -107,22 +107,22 @@ public class TestCommandFactory {
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForFillRegionWithTooManyArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForFillRegionWithTooManyArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("B 1 2 6 o");
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForFillRegionWithTooFewArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForFillRegionWithTooFewArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("B 1 o");
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testGeneratingForFillRegionWithInvalidArguments() throws InvalidCommandException, CanvasException {
+    public void testGeneratingForFillRegionWithInvalidArguments() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("B 1 a o");
     }
 
     @Test
-    public void testGeneratingCommandForQuitting() throws InvalidCommandException, CanvasException {
+    public void testGeneratingCommandForQuitting() throws InvalidCommandException, CanvasOperationException {
         Command quitCommand = new Quit();
         Command quit = commandFactory.getCommandFor(QUIT);
         assertNotNull(quit);
@@ -130,7 +130,7 @@ public class TestCommandFactory {
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testThrowsExceptionForInvalidCommand() throws InvalidCommandException, CanvasException {
+    public void testThrowsExceptionForInvalidCommand() throws InvalidCommandException, CanvasOperationException {
         commandFactory.getCommandFor("S 1 3 5");
     }
 }
