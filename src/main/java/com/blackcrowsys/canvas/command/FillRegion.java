@@ -2,6 +2,7 @@ package com.blackcrowsys.canvas.command;
 
 import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.Coordinate;
+import com.blackcrowsys.canvas.exception.CanvasOperationException;
 
 public class FillRegion implements Command {
 
@@ -17,7 +18,7 @@ public class FillRegion implements Command {
     }
 
     @Override
-    public Canvas execute(Canvas canvas) {
+    public Canvas execute(Canvas canvas) throws CanvasOperationException {
 
         return canvas.fillRegion(location, fillCharacter);
     }

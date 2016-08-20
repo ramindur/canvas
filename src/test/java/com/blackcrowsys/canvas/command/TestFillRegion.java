@@ -2,11 +2,10 @@ package com.blackcrowsys.canvas.command;
 
 import com.blackcrowsys.canvas.Canvas;
 import com.blackcrowsys.canvas.Coordinate;
+import com.blackcrowsys.canvas.exception.CanvasOperationException;
 import org.junit.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class TestFillRegion {
 
@@ -15,7 +14,7 @@ public class TestFillRegion {
     private Canvas canvas = mock(Canvas.class);
 
     @Test
-    public void testFillingRegion(){
+    public void testFillingRegion() throws CanvasOperationException {
         Coordinate location = new Coordinate(10, 3);
 
         Command fillRegion = new FillRegion(location, FILL_CHAR);

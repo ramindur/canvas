@@ -1,5 +1,7 @@
 package com.blackcrowsys.canvas;
 
+import com.blackcrowsys.canvas.exception.CanvasOperationException;
+
 public class ConsoleCanvas implements Canvas {
 
     private static final char DEFAULT_CHAR = 'x';
@@ -27,24 +29,6 @@ public class ConsoleCanvas implements Canvas {
     }
 
     /**
-     * Draws a vertical or horizontal line between two locations.
-     *
-     * @param from the from location
-     * @param to   the to location
-     * @return this
-     */
-    @Override
-    public Canvas drawLine(Coordinate from, Coordinate to) {
-        if (from.getX() == to.getX()) {
-            drawVerticalLine(from, to, DEFAULT_CHAR);
-            return this;
-        }
-        drawHorizontalLine(from, to, DEFAULT_CHAR);
-        return this;
-    }
-
-
-    /**
      * Draws a rectangle with the given corner coordinates.
      *
      * @param topLeftCorner     the top left corner
@@ -52,13 +36,48 @@ public class ConsoleCanvas implements Canvas {
      * @return this
      */
     @Override
-    public Canvas drawRectangle(Coordinate topLeftCorner, Coordinate bottomRightCorner) {
-        drawHorizontalLine(topLeftCorner, new Coordinate(bottomRightCorner.getX(), topLeftCorner.getY()), DEFAULT_CHAR);
-        drawVerticalLine(topLeftCorner, new Coordinate(topLeftCorner.getX(), bottomRightCorner.getY()), DEFAULT_CHAR);
+    public Canvas drawRectangle(Coordinate topLeftCorner, Coordinate bottomRightCorner) throws CanvasOperationException {
+        drawLine(topLeftCorner, new Coordinate(bottomRightCorner.getX(), topLeftCorner.getY()));
+        drawLine(topLeftCorner, new Coordinate(topLeftCorner.getX(), bottomRightCorner.getY()));
 
-        drawHorizontalLine(new Coordinate(topLeftCorner.getX(), bottomRightCorner.getY()), bottomRightCorner, DEFAULT_CHAR);
-        drawVerticalLine(new Coordinate(bottomRightCorner.getX(), topLeftCorner.getY()), bottomRightCorner, DEFAULT_CHAR);
+        drawLine(new Coordinate(topLeftCorner.getX(), bottomRightCorner.getY()), bottomRightCorner);
+        drawLine(new Coordinate(bottomRightCorner.getX(), topLeftCorner.getY()), bottomRightCorner);
         return this;
+    }
+
+    /**
+     * Draws a vertical or horizontal line between two locations.
+     *
+     * @param from the from location
+     * @param to   the to location
+     * @return this
+     */
+    @Override
+    public Canvas drawLine(Coordinate from, Coordinate to) throws CanvasOperationException {
+        if (!checkCoordinates(from) || !checkCoordinates(to))
+            throw new CanvasOperationException("Coordinates outside of region");
+
+        if (from.getX() == to.getX()) {
+            if (from.getY() > to.getY()) {
+                int temp = from.getY();
+                from.setY(to.getY());
+                to.setY(temp);
+            }
+            drawVerticalLine(from, to, DEFAULT_CHAR);
+            return this;
+        }
+
+        if (from.getY() == to.getY()) {
+            if (from.getX() > to.getX()) {
+                int temp = from.getX();
+                from.setX(to.getX());
+                to.setX(temp);
+            }
+            drawHorizontalLine(from, to, DEFAULT_CHAR);
+            return this;
+        }
+
+        throw new CanvasOperationException("Request line is not a vertical or horizontal line");
     }
 
     /**
@@ -69,9 +88,15 @@ public class ConsoleCanvas implements Canvas {
      * @return this
      */
     @Override
-    public Canvas fillRegion(Coordinate location, char fillCharacter) {
-        fillRegionAroundPoint(location, fillCharacter);
-        return this;
+    public Canvas fillRegion(Coordinate location, char fillCharacter) throws CanvasOperationException {
+        if (!checkCoordinates(location)) {
+            throw new CanvasOperationException("Location is outside of canvas");
+        }
+        if (canvas[location.getY()][location.getX()] == 0) {
+            fillRegionAroundPoint(location, fillCharacter);
+            return this;
+        }
+        throw new CanvasOperationException("Location is already occupied");
     }
 
     public int getWidth() {
@@ -189,5 +214,17 @@ public class ConsoleCanvas implements Canvas {
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Checks if the location is within the canvas boundry.
+     *
+     * @param at the location
+     * @return false if outside of the canvas, otherwise true
+     */
+    private boolean checkCoordinates(Coordinate at) {
+        if (at.getX() < 1 || at.getX() > width) return false;
+        if (at.getY() < 1 || at.getY() > height) return false;
+        return true;
     }
 }
