@@ -35,7 +35,7 @@ public class CanvasProcessor {
             if (command.getCommandString().equals(CREATE) || command.getCommandString().equals(QUIT)) {
                 return command.execute(canvas);
             } else {
-                throw new InvalidCommandException("Canvas does not exist");
+                throw new InvalidCommandException("Please create a canvas first");
             }
         } else {
             return command.execute(canvas);

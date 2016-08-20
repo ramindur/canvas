@@ -37,6 +37,9 @@ public class ConsoleCanvas implements Canvas {
      */
     @Override
     public Canvas drawRectangle(Coordinate topLeftCorner, Coordinate bottomRightCorner) throws CanvasOperationException {
+        if(!checkCoordinatesForRectangle(topLeftCorner, bottomRightCorner))
+            throw new CanvasOperationException("Given coordinates are not top left and bottom right corner respectively");
+
         drawLine(topLeftCorner, new Coordinate(bottomRightCorner.getX(), topLeftCorner.getY()));
         drawLine(topLeftCorner, new Coordinate(topLeftCorner.getX(), bottomRightCorner.getY()));
 
@@ -77,7 +80,7 @@ public class ConsoleCanvas implements Canvas {
             return this;
         }
 
-        throw new CanvasOperationException("Request line is not a vertical or horizontal line");
+        throw new CanvasOperationException("Line is not a vertical or horizontal line");
     }
 
     /**
@@ -192,7 +195,7 @@ public class ConsoleCanvas implements Canvas {
     }
 
     private void fillYAxisGoingUp(int x, int y, char fillCharacter) {
-        for (int yIndex = y; yIndex < height; yIndex++) {
+        for (int yIndex = y; yIndex <= height; yIndex++) {
             if (checkIfCanFillAtLocation(x, yIndex, fillCharacter)) {
                 canvas[yIndex][x] = fillCharacter;
             }
@@ -237,5 +240,19 @@ public class ConsoleCanvas implements Canvas {
         if (at.getX() < 1 || at.getX() > width) return false;
         if (at.getY() < 1 || at.getY() > height) return false;
         return true;
+    }
+
+    /**
+     * Checks if the coordinates are top left corner and bottom right corner
+     *
+     * @param topLeftCorner
+     * @param bottomRightCorner
+     * @return true if the coordinates make sense, otherwise false
+     */
+    private boolean checkCoordinatesForRectangle(Coordinate topLeftCorner, Coordinate bottomRightCorner) {
+        if (topLeftCorner.getX() <= bottomRightCorner.getX()) {
+            if (topLeftCorner.getY() <= bottomRightCorner.getY()) return true;
+        }
+        return false;
     }
 }
