@@ -28,6 +28,7 @@ Ths uses Command design pattern to interpret the user's command line input. Base
 * CanvasFactory is used to create concrete instance of Canvas, currently ConsoleCanvas
 * CommandFactory is used to create Command objects, in command package, based on the user input
 * CanvasProcessor is the main entry point for the Main class; it is the wrapper that takes user input, creates Command objects and executes it's execute methods
+* ConsoleCanvas is the implementation of Canvas interface and does all the basic drawing, etc.
 
 ## Dependancies
 There are only two dependancies: JUnit and Mockito - all for testing and mocking objects.

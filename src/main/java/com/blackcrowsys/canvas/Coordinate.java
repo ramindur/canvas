@@ -2,9 +2,6 @@ package com.blackcrowsys.canvas;
 
 import java.util.Objects;
 
-/**
- * Created by ramindursingh on 20/08/2016.
- */
 public class Coordinate {
 
     private int x;
