@@ -28,15 +28,19 @@ public class Main {
         while (continueShell) {
             System.out.print("\nenter command: ");
             String userInput = System.console().readLine();
-            try {
-                canvas = processor.runCommandOnCanvas(userInput, canvas);
-                if (canvas == null) {
-                    continueShell = false;
-                } else {
-                    displayConsole.execute(canvas);
+            if(userInput.isEmpty()){
+                System.out.print("\nplease enter a valid command");
+            }else{
+                try {
+                    canvas = processor.runCommandOnCanvas(userInput, canvas);
+                    if (canvas == null) {
+                        continueShell = false;
+                    } else {
+                        displayConsole.execute(canvas);
+                    }
+                } catch (CanvasOperationException | InvalidCommandException e) {
+                    System.out.print("\n" + e.getMessage());
                 }
-            } catch (CanvasOperationException | InvalidCommandException e) {
-                System.out.print("\n" + e.getMessage());
             }
         }
     }

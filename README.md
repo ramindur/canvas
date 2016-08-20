@@ -7,6 +7,7 @@ This is for a code exercise.
 
 * Supports basic commands to create canvas, draw line, draw rectangle, and fill a region
 * Command line interface
+* Interactive shell
 
 ## Running the program
 Cloning this project will create a folder called "canvas." Change to this folder and run "mvn package" to create a JAR file called canvas-1.0-SNAPSHOT.jar in target folder.
@@ -31,8 +32,16 @@ Ths uses Command design pattern to interpret the user's command line input. Base
 * ConsoleCanvas is the implementation of Canvas interface and does all the basic drawing, etc.
 
 ## Dependancies
-There are only two dependancies: JUnit and Mockito - all for testing and mocking objects.
+There are only two dependencies: JUnit and Mockito - all for testing and mocking objects.
+These are included in the POM.
 
+## Design Rationale
+I decided to use Command design pattern as this fits very well the problem and gives greater flexibility to extend it, either by creating additional commands or implementing a different Canvas.
 
+By separating the commands from the canvas drawing, each can be developed and implemented independently of each other.
 
+The ConsoleCanvas, called this simply because it works against a shell console but could have been easily called CharCanvas, uses a 2D char array as this is the simplest solution for the given requirement.
 
+The Command interface represents the instructions that should be executed by the Canvas object. This object only knows what methods of the Canvas class to call to carry out the user's request. Additional commands can be easily supported by implementing additional Command classes. However, in some cases, further work may be required in Canvas implementations, i.e. supporting diagonal lines.
+
+Using the factory to either create Command instances or Canvas instance decouples the main classes and allows for testing using mocks, as well as for Dependency Injection if used in DI frameworks.
