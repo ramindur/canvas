@@ -2,6 +2,7 @@ package com.blackcrowsys.canvas;
 
 
 import com.blackcrowsys.canvas.command.*;
+import com.blackcrowsys.canvas.exception.CanvasException;
 import com.blackcrowsys.canvas.exception.InvalidCommandException;
 
 public class CommandFactory {
@@ -12,6 +13,12 @@ public class CommandFactory {
     private static final String FILL = "B";
     private static final String QUIT = "Q";
 
+    private CanvasFactory canvasFactory;
+
+    public CommandFactory(CanvasFactory canvasFactory){
+        this.canvasFactory = canvasFactory;
+    }
+
 
     /**
      * Creates a command based on the arguments.
@@ -20,7 +27,7 @@ public class CommandFactory {
      * @return
      * @throws InvalidCommandException
      */
-    public Command getCommandFor(String arguments) throws InvalidCommandException {
+    public Command getCommandFor(String arguments) throws InvalidCommandException, CanvasException {
         String[] args = arguments.split("\\s+");
         switch (args[0]) {
             case CREATE:
@@ -29,7 +36,7 @@ public class CommandFactory {
                 try {
                     int width = Integer.parseInt(args[1]);
                     int height = Integer.parseInt(args[2]);
-                    return new Create(width, height);
+                    return new Create(width, height, canvasFactory);
                 } catch (NumberFormatException e) {
                     throw new InvalidCommandException(e.getMessage());
                 }

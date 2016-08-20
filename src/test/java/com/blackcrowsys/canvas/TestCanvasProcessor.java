@@ -2,6 +2,7 @@ package com.blackcrowsys.canvas;
 
 import com.blackcrowsys.canvas.command.Command;
 import com.blackcrowsys.canvas.command.FillRegion;
+import com.blackcrowsys.canvas.exception.CanvasException;
 import com.blackcrowsys.canvas.exception.InvalidCommandException;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,21 +26,21 @@ public class TestCanvasProcessor {
     private Canvas canvas = mock(Canvas.class);
 
     @Before
-    public void setUp() throws InvalidCommandException {
+    public void setUp() throws InvalidCommandException, CanvasException {
         processor = new CanvasProcessor(commandFactory);
         when(commandFactory.getCommandFor(CREATE_CANVAS)).thenReturn(command);
         when(command.execute(canvas)).thenReturn(canvas);
     }
 
     @Test
-    public void testProcessorCreatesCommandAndExecutes() throws InvalidCommandException {
+    public void testProcessorCreatesCommandAndExecutes() throws InvalidCommandException, CanvasException {
         Canvas returnedCanvas = processor.runCommandOnCanvas(CREATE_CANVAS, canvas);
         assertNotNull(returnedCanvas);
         verify(command, times(1)).execute(canvas);
     }
 
     @Test(expected = InvalidCommandException.class)
-    public void testRunningDrawCommandBeforeCanvasCreated() throws InvalidCommandException {
+    public void testRunningDrawCommandBeforeCanvasCreated() throws InvalidCommandException, CanvasException {
         when(commandFactory.getCommandFor(FILL_REGION)).thenReturn(new FillRegion(new Coordinate(), 'o'));
         processor.runCommandOnCanvas(FILL_REGION, null);
     }
