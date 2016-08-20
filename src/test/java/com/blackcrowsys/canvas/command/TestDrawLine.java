@@ -16,7 +16,7 @@ public class TestDrawLine {
         Coordinate from = new Coordinate(1, 2);
         Coordinate to = new Coordinate(6, 2);
 
-        DrawLine drawLine = new DrawLine(from, to);
+        Command drawLine = new DrawLine(from, to);
         drawLine.execute(canvas);
         verify(canvas, times(1)).drawLine(from, to);
     }

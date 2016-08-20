@@ -14,7 +14,7 @@ public class TestDrawRectangle {
         Coordinate topLeftCorner = new Coordinate(16, 1);
         Coordinate bottomRightCorner = new Coordinate(20, 3);
 
-        DrawRectangle drawRectangle = new DrawRectangle(topLeftCorner, bottomRightCorner);
+        Command drawRectangle = new DrawRectangle(topLeftCorner, bottomRightCorner);
         drawRectangle.execute(canvas);
         verify(canvas, times(1)).drawRectangle(topLeftCorner, bottomRightCorner);
     }

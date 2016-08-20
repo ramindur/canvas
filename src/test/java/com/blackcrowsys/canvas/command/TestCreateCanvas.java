@@ -26,7 +26,7 @@ public class TestCreateCanvas {
 
     @Test
     public void testCreateCommand() throws CanvasOperationException {
-        CreateCanvas create = new CreateCanvas(WIDTH, HEIGHT, factory);
+        Command create = new CreateCanvas(WIDTH, HEIGHT, factory);
         Canvas canvas = create.execute(null);
         assertNotNull(canvas);
         assertEquals(canvas, canvas);
