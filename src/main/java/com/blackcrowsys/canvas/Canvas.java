@@ -9,4 +9,6 @@ public interface Canvas {
     Canvas drawRectangle(Coordinate topLeftCorner, Coordinate bottomRightCorner) throws CanvasOperationException;
 
     Canvas fillRegion(Coordinate location, char fillCharacter) throws CanvasOperationException;
+
+    void displayCanvas() throws CanvasOperationException;
 }

@@ -99,6 +99,17 @@ public class ConsoleCanvas implements Canvas {
         throw new CanvasOperationException("Location is already occupied");
     }
 
+    @Override
+    public void displayCanvas() {
+        for (char[] row : canvas) {
+            for (char pixel : row) {
+                if (pixel == 0) pixel = ' ';
+                System.out.print(pixel);
+            }
+            System.out.println("");
+        }
+    }
+
     public int getWidth() {
         return canvas[0].length - 2;
     }
