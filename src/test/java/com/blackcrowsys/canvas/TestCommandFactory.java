@@ -2,6 +2,7 @@ package com.blackcrowsys.canvas;
 
 
 import com.blackcrowsys.canvas.command.*;
+import com.blackcrowsys.canvas.exception.InvalidCommandException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +25,8 @@ public class TestCommandFactory {
 
     private static final String FILL_REGION = "B 10 3 o";
 
+    private static final String QUIT = "Q";
+
     private CommandFactory factory;
 
     @Before
@@ -32,7 +35,7 @@ public class TestCommandFactory {
     }
 
     @Test
-    public void testGeneratingCommandForCreatingCanvas(){
+    public void testGeneratingCommandForCreatingCanvas() throws InvalidCommandException {
         Command createCanvasCommand = new Create();
         Command createCanvas = factory.getCommandFor(CREATE_CANVAS);
         assertNotNull(createCanvas);
@@ -41,7 +44,7 @@ public class TestCommandFactory {
 
 
     @Test
-    public void testGeneratingCommandForDrawingLine(){
+    public void testGeneratingCommandForDrawingLine() throws InvalidCommandException {
         Command drawLineCommand = new Line();
         Command drawLine = factory.getCommandFor(DRAW_LINE);
         assertNotNull(drawLine);
@@ -49,7 +52,7 @@ public class TestCommandFactory {
     }
 
     @Test
-    public void testGeneratingCommandForDrawingRectangle(){
+    public void testGeneratingCommandForDrawingRectangle() throws InvalidCommandException {
         Command drawRectangleCommand = new Rectangle();
         Command drawRectangle = factory.getCommandFor(DRAW_RECTANGLE);
         assertNotNull(drawRectangle);
@@ -57,10 +60,23 @@ public class TestCommandFactory {
     }
 
     @Test
-    public void testGeneratingCommandForFillRegtion(){
+    public void testGeneratingCommandForFillRegtion() throws InvalidCommandException {
         Command fillRegionCommand = new FillRegion();
         Command fillRegion = factory.getCommandFor(FILL_REGION);
         assertNotNull(fillRegion);
         assertTrue(fillRegionCommand.getCommandString().equals(fillRegion.getCommandString()));
+    }
+
+    @Test
+    public void testGeneratingCommandForQuitting() throws InvalidCommandException {
+        Command quitCommand = new Quit();
+        Command quit = factory.getCommandFor(QUIT);
+        assertNotNull(quit);
+        assertTrue(quitCommand.getCommandString().equals(quit.getCommandString()));
+    }
+
+    @Test(expected = InvalidCommandException.class)
+    public void testThrowsExceptionForInvalidCommand() throws InvalidCommandException {
+        factory.getCommandFor("S 1 3 5");
     }
 }

@@ -2,6 +2,7 @@ package com.blackcrowsys.canvas;
 
 
 import com.blackcrowsys.canvas.command.Command;
+import com.blackcrowsys.canvas.exception.InvalidCommandException;
 
 public class CanvasProcessor {
 
@@ -21,7 +22,7 @@ public class CanvasProcessor {
      * @param arguments the command line argument
      * @return the command object
      */
-    public Command forCommand(String arguments) {
+    public Command forCommand(String arguments) throws InvalidCommandException {
         Command command = commandFactory.getCommandFor(arguments);
         command.execute();
         return command;
