@@ -10,7 +10,7 @@ It was developed using IntelliJ and can be imported into IntelliJ as a Maven pro
 
 ## Running the program
 If you have a JAR file, canvas-1.0-SNAPSHOT.jar, the the following will run the Main program:
-  java -jar canvas-1.0-SNAPSHOT.jar
+..* java -jar canvas-1.0-SNAPSHOT.jar
   
 You can clone this project, which will create a folder called "canvas." Change to this folder and run "mvn package" to create a JAR file called canvas-1.0-SNAPSHOT.jar in target folder.
 
