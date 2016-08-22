@@ -37,7 +37,7 @@ public class ConsoleCanvas implements Canvas {
      */
     @Override
     public Canvas drawRectangle(Coordinate topLeftCorner, Coordinate bottomRightCorner) throws CanvasOperationException {
-        if(!checkCoordinatesForRectangle(topLeftCorner, bottomRightCorner))
+        if (!checkCoordinatesForRectangle(topLeftCorner, bottomRightCorner))
             throw new CanvasOperationException("Given coordinates are not top left and bottom right corner respectively");
 
         drawLine(topLeftCorner, new Coordinate(bottomRightCorner.getX(), topLeftCorner.getY()));
@@ -84,7 +84,8 @@ public class ConsoleCanvas implements Canvas {
     }
 
     /**
-     * Fills a region with the fillCharacter.
+     * Fills a region with the fillCharacter. It does this by repeatedly calling scan and fill function until
+     * the function returns false (i.e. scan operation did not fill any location).
      *
      * @param location      the location around which should be filled
      * @param fillCharacter the charcter to use
@@ -96,7 +97,8 @@ public class ConsoleCanvas implements Canvas {
             throw new CanvasOperationException("Location is outside of canvas");
         }
         if (canvas[location.getY()][location.getX()] == 0) {
-            fillRegionAroundPoint(location, fillCharacter);
+            canvas[location.getY()][location.getX()] = fillCharacter;
+            while (scanCanvasForFilling(fillCharacter)) ;
             return this;
         }
         throw new CanvasOperationException("Location is already occupied");
@@ -121,7 +123,7 @@ public class ConsoleCanvas implements Canvas {
         return canvas.length - 2;
     }
 
-    public char[][] getCanvas() {
+    public Object getCanvas() {
         return canvas;
     }
 
@@ -148,66 +150,36 @@ public class ConsoleCanvas implements Canvas {
     }
 
     /**
-     * Fills the region at the point and around it.
-     * It does this by traversing along the x and y axis in one direction and then the other direction
-     * until it hits a location which already is set.
+     * It scans along the X/Y axis of the canvas/
      *
-     * @param location      the location
-     * @param fillCharacter the character to use
+     * @param fillCharacter the fill character
+     * @return true if it did find a location which it filled with the fill character, otherwise false
      */
-    private void fillRegionAroundPoint(Coordinate location, char fillCharacter) {
-        canvas[location.getY()][location.getX()] = fillCharacter;
-
-        for (int y = location.getY(); y <= height; y++) {
-            fillAlongXAxisGoingRight(location.getX(), y, fillCharacter);
-            fillAlongXAxisGoingLeft(location.getX(), y, fillCharacter);
+    private boolean scanCanvasForFilling(char fillCharacter) {
+        boolean filledSomeLocation = false;
+        for (int yLocation = 1; yLocation <= height; yLocation++) {
+            for (int xLocation = 1; xLocation <= width; xLocation++) {
+                if (canvas[yLocation][xLocation] == 0) if (checkAndFillAtLocation(xLocation, yLocation, fillCharacter))
+                    filledSomeLocation = true;
+            }
         }
-
-        for (int y = location.getY(); y > 0; y--) {
-            fillAlongXAxisGoingRight(location.getX(), y, fillCharacter);
-            fillAlongXAxisGoingLeft(location.getX(), y, fillCharacter);
-        }
+        return filledSomeLocation;
     }
 
-    /*
-     * The following are methods to support the fillRegion methods.
-     * In order to speed things up, it uses the X/Y coordinate values rather than
-     * a Coordinate object.
+    /**
+     * Checks if the location can be filled with the fill character
+     *
+     * @param x             the X axis point
+     * @param y             the Y axis point
+     * @param fillCharacter the fill character
+     * @return true if it did fill, otherwise false
      */
-    private void fillAlongXAxisGoingRight(int x, int y, char fillCharacter) {
-        for (int xIndex = x; xIndex <= width; xIndex++) {
-            if (checkIfCanFillAtLocation(xIndex, y, fillCharacter)) {
-                canvas[y][xIndex] = fillCharacter;
-            }
-            fillYAxisGoingDown(xIndex, y, fillCharacter);
-            fillYAxisGoingUp(xIndex, y, fillCharacter);
+    private boolean checkAndFillAtLocation(int x, int y, char fillCharacter) {
+        if (checkIfCanFillAtLocation(x, y, fillCharacter)) {
+            canvas[y][x] = fillCharacter;
+            return true;
         }
-    }
-
-    private void fillAlongXAxisGoingLeft(int x, int y, char fillCharacter) {
-        for (int xIndex = x; xIndex > 0; xIndex--) {
-            if (checkIfCanFillAtLocation(xIndex, y, fillCharacter)) {
-                canvas[y][xIndex] = fillCharacter;
-            }
-            fillYAxisGoingDown(xIndex, y, fillCharacter);
-            fillYAxisGoingUp(xIndex, y, fillCharacter);
-        }
-    }
-
-    private void fillYAxisGoingUp(int x, int y, char fillCharacter) {
-        for (int yIndex = y; yIndex <= height; yIndex++) {
-            if (checkIfCanFillAtLocation(x, yIndex, fillCharacter)) {
-                canvas[yIndex][x] = fillCharacter;
-            }
-        }
-    }
-
-    private void fillYAxisGoingDown(int x, int y, char fillCharacter) {
-        for (int yIndex = y; yIndex > 0; yIndex--) {
-            if (checkIfCanFillAtLocation(x, yIndex, fillCharacter)) {
-                canvas[yIndex][x] = fillCharacter;
-            }
-        }
+        return false;
     }
 
     /**
@@ -221,11 +193,14 @@ public class ConsoleCanvas implements Canvas {
      */
     private boolean checkIfCanFillAtLocation(int x, int y, char fillCharacter) {
         if (canvas[y][x] == 0) {
-            if (canvas[y - 1][x] == fillCharacter
-                    || canvas[y + 1][x] == fillCharacter
-                    || canvas[y][x - 1] == fillCharacter
-                    || canvas[y][x + 1] == fillCharacter)
-                return true;
+            if (canvas[y - 1][x] == fillCharacter) return true;
+            if (canvas[y + 1][x] == fillCharacter) return true;
+            if (canvas[y][x - 1] == fillCharacter) return true;
+            if (canvas[y][x + 1] == fillCharacter) return true;
+            if (canvas[y - 1][x - 1] == fillCharacter) return true;
+            if (canvas[y - 1][x + 1] == fillCharacter) return true;
+            if (canvas[y + 1][x - 1] == fillCharacter) return true;
+            if (canvas[y + 1][x + 1] == fillCharacter) return true;
         }
         return false;
     }

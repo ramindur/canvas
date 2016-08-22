@@ -26,7 +26,7 @@ public class TestConsoleCanvas {
         assertNotNull(consoleCanvas);
         assertEquals(WIDTH, consoleCanvas.getWidth());
         assertEquals(HEIGHT, consoleCanvas.getHeight());
-        assertArrayEquals(canvas, consoleCanvas.getCanvas());
+        assertArrayEquals(canvas, (char [][])consoleCanvas.getCanvas());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class TestConsoleCanvas {
         setBlankCanvas();
         setHorizontalLine();
         consoleCanvas.drawLine(new Coordinate(1, 1), new Coordinate(4, 1));
-        assertArrayEquals(canvas, consoleCanvas.getCanvas());
+        assertArrayEquals(canvas, (char [][])consoleCanvas.getCanvas());
     }
 
     @Test(expected = CanvasOperationException.class)
@@ -47,7 +47,7 @@ public class TestConsoleCanvas {
     public void testDrawingVerticalLine() throws CanvasOperationException {
         setVerticalLine();
         consoleCanvas.drawLine(new Coordinate(2, 1), new Coordinate(2, 2));
-        assertArrayEquals(canvas, consoleCanvas.getCanvas());
+        assertArrayEquals(canvas, (char [][])consoleCanvas.getCanvas());
     }
 
     @Test(expected = CanvasOperationException.class)
@@ -65,7 +65,7 @@ public class TestConsoleCanvas {
     public void testDrawRectangle() throws CanvasOperationException {
         setRectangule();
         consoleCanvas.drawRectangle(new Coordinate(2, 1), new Coordinate(4, 2));
-        assertArrayEquals(canvas, consoleCanvas.getCanvas());
+        assertArrayEquals(canvas, (char [][])consoleCanvas.getCanvas());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class TestConsoleCanvas {
         fillRegion();
         consoleCanvas.drawRectangle(new Coordinate(2, 1), new Coordinate(4, 2));
         consoleCanvas.fillRegion(new Coordinate(1, 1), 'o');
-        assertArrayEquals(canvas, consoleCanvas.getCanvas());
+        assertArrayEquals(canvas, (char [][])consoleCanvas.getCanvas());
     }
 
     @Test(expected = CanvasOperationException.class)

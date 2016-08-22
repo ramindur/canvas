@@ -11,4 +11,6 @@ public interface Canvas {
     Canvas fillRegion(Coordinate location, char fillCharacter) throws CanvasOperationException;
 
     void displayCanvas() throws CanvasOperationException;
+
+    Object getCanvas();
 }
