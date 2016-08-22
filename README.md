@@ -1,7 +1,6 @@
 # Canvas
 A simple canvas for drawing basic objects, such as lines and rectangles.
-
-This is for a code exercise.
+It was developed using IntelliJ and can be imported into IntelliJ as a Maven project.
 
 ## Requirements
 
